@@ -3,7 +3,8 @@
 All states via SQLAlchemy
 """
 from sys import argv
-from model_state import Base, State
+from relationship_state import Base, State
+from relationship_city import City
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import Session
 
@@ -14,8 +15,12 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
 
     session = Session(engine)
-    new_obj = State(name='Louisiana')
-    session.add(new_obj)
+    new_state = State(name='California')
+
+
+    new_city = City(name='San Francisco')
+    new_state.cities.append(new_city)
+
+    session.add(new_state)
     session.commit()
-    print(new_obj.id)
     session.close()
